@@ -29,7 +29,7 @@ allprojects{
 
 dependencies{
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
-    compileOnly "com.github.Anuken.Mindustry:core:v139"
+    compileOnly "com.github.Anuken.MindustryJitpack:core:v139"
 
     //you may uncomment this dependency to properly use Java 17 features while still targeting Java 8.
     //note that this fails on some systems for as-of-yet unknown reasons - if this happens to you, revert the changes
@@ -86,4 +86,17 @@ task deploy(type: Jar){
     }
 }
 
-task jarMove dependsOn "jar", "moveDesktop"
+//haha this is mine now
+/*task moveDesktop {
+    exec {
+        workingDir "$rootDir"
+        if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
+            println "Shadow realming jar file."
+            commandLine("cmd", "/C", "move", "/Y", "build\\libs\\${project.archivesBaseName}Desktop.jar", "%userprofile%\\AppData\\Roaming\\Mindustry\\mods")
+        } else {
+            println "This task was made only for Windows."
+        }
+    }
+}
+
+task jarMove dependsOn "jar", "moveDesktop"*/
