@@ -3,18 +3,18 @@ package hearth.content;
 import arc.graphics.*;
 import hearth.types.*;
 import mindustry.content.*;
-import mindustry.entities.abilities.EnergyFieldAbility;
-import mindustry.entities.bullet.*;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.defense.ShockMine;
-import mindustry.world.blocks.defense.Wall;
-import mindustry.world.blocks.defense.turrets.PayloadAmmoTurret;
+import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.distribution.StackConveyor;
+import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.*;
-import mindustry.world.blocks.power.ConsumeGenerator;
+import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.BuildVisibility;
 
 import static mindustry.type.ItemStack.with;
 
@@ -22,8 +22,11 @@ public class HearthBlocks {
 
     public static Block
 
+    //distribution
+    poweredRail, poweredRouter,
+
     //production   large boiler gated behind resource after quartz
-    hearth, siliconFurnace, heatedBoiler, crystallizationChamber, steamPress,
+    hearth, siliconFurnace, heatedBoiler, crystallizationChamber, steamPress, heatVoid,
 
     //drills todo actually fucking get these to work
     basicBore, thermalDrill,
@@ -31,13 +34,16 @@ public class HearthBlocks {
     //power
     steamTurbine, powerChannel,
 
+    //units
+    shipPad,
+
     //turrets
-    oscillate, //throws piezo mines that slow enemies, midgame
+    oscillate, vibrationMine, //throws piezo mines that slow enemies, midgame
 
     //defense
-    vibrationMine,
+    magneticAccelerator, magneticRedirector, barrierProjector,
 
-    //defense walls
+    //walls
     smallNickelWall, nickelWall, largeNickelWall,
     smallInvarWall, invarWall, largeInvarWall,
     smallQuartzWall, quartzWall, largeQuartzWall, //todo shockwaves when powered, produces energy on hit
@@ -45,6 +51,40 @@ public class HearthBlocks {
     smallArmatineWall, armatineWall, largeArmatineWall;
 
     public static void load(){
+
+        //distribution
+        poweredRail = new StackConveyor("powered-rail"){{
+            requirements(Category.distribution, with(HearthResources.nickel, 1, Items.silicon, 1));
+            health = 80;
+            speed = 3f / 60f;
+            itemCapacity = 4;
+            glowColor = HearthGraphics.power;
+
+            outputRouter = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+
+            underBullets = true;
+            baseEfficiency = 0.3f;
+            consumePower(5f / 60f);
+        }};
+
+        poweredRouter = new StackRouter("powered-router"){{
+            requirements(Category.distribution, with(HearthResources.nickel, 1, Items.silicon, 1));
+            health = 80;
+            speed = 4f;
+            glowColor = HearthGraphics.power;
+
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+
+            underBullets = true;
+            baseEfficiency = 0.2f;
+            solid = false;
+            consumePower(7f / 60f);
+        }};
 
         //production
         hearth = new HeatProducer("hearth"){{
@@ -139,6 +179,15 @@ public class HearthBlocks {
             drawer = new DrawDefault();
         }};
 
+        heatVoid = new HeatProducer("heat-void"){{
+            requirements(Category.crafting, BuildVisibility.sandboxOnly, with());
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
+            rotateDraw = false;
+            size = 1;
+            heatOutput = -1000f;
+            ambientSound = Sounds.none;
+        }};
+
 
 
         //drills
@@ -183,13 +232,27 @@ public class HearthBlocks {
         }};
 
 
+
+        //units - pads
+        shipPad = new MechPad("ship-pad"){{
+            requirements(Category.effect, with(HearthResources.nickel, 6));
+            size = 5;
+            unitType = HearthUnits.shieldShip;
+            hasPower = true;
+
+            mechReqs = with(HearthResources.nickel, 50);
+            consumePower(1f);
+        }};
+
+
+
         //turrets
         vibrationMine = new ShockMine("vibration-mine"){{
             requirements(Category.turret, with(HearthResources.nickel, 6));
             size = 1;
         }};
 
-        oscillate = new PayloadAmmoTurret("oscillate"){{
+        /*oscillate = new PayloadAmmoTurret("oscillate"){{
             requirements(Category.turret, with(HearthResources.nickel, 6));
             size = 3;
             targetAir = false;
@@ -217,10 +280,47 @@ public class HearthBlocks {
                     }};
                 }}
             );
-        }};
+        }};*/
+
+
 
         //defense
+        magneticAccelerator = new MagneticBlock("magnetic-accelerator"){{
+            requirements(Category.effect/*, BuildVisibility.editorOnly*/, with());
+            size = 3;
+            rotate = true;
+            directional = true;
+            range = 3.5f * 4f;
 
+            heatRequirement = -10f;
+            consumePower(10f);
+        }};
+
+        magneticRedirector = new MagneticBlock("magnetic-redirector"){{
+            requirements(Category.effect/*, BuildVisibility.editorOnly*/, with());
+            size = 2;
+            rotate = true;
+            baseStrength = 6f;
+
+            heatRequirement = -10f;
+            consumePower(10f);
+        }};
+
+        barrierProjector = new DirectionalForceProjector("barrier-projector"){{
+            requirements(Category.effect, with(Items.surgeAlloy, 100, Items.silicon, 125));
+            size = 3;
+            width = 50f;
+            length = 36;
+            shieldHealth = 2000f;
+            cooldownNormal = 3f;
+            cooldownBrokenBase = 0.35f;
+
+            consumePower(4f);
+        }};
+
+
+
+        //walls
         smallNickelWall = new Wall("small-nickel-wall"){{
             requirements(Category.defense, with(HearthResources.nickel, 6));
             size = 1;
@@ -252,7 +352,6 @@ public class HearthBlocks {
             size = 3;
             health = smallInvarWall.health * 3;
         }};
-
 
         smallQuartzWall = new PiezoWall("small-quartz-wall"){{
             requirements(Category.defense, with(HearthResources.quartz, 6));

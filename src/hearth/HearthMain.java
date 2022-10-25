@@ -1,23 +1,22 @@
 package hearth;
 
 import arc.struct.Seq;
-import hearth.content.HearthResources;
+import hearth.content.*;
 import mindustry.Vars;
 import mindustry.mod.*;
-import hearth.content.HearthBlocks;
-import rhino.ImporterTopLevel;
-import rhino.NativeJavaPackage;
+import rhino.*;
 
 public class HearthMain extends Mod{
     public HearthMain(){}
 
     @Override
     public void loadContent() {
-        new HearthResources().load();
-        new HearthBlocks().load();
+        HearthResources.load();
+        HearthUnits.load();
+        HearthBlocks.load();
     }
 
-    //"donated" by sh1p
+    //donated by sh1p
     public static NativeJavaPackage p = null;
 
     @Override

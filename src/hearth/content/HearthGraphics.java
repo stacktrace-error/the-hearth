@@ -12,6 +12,7 @@ public class HearthGraphics {
     //Pal
     public static Color
 
+    outline = Color.valueOf("2c2929"),
     power = Color.valueOf("c3f1e5");
 
 
