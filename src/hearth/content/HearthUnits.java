@@ -9,7 +9,7 @@ public class HearthUnits {
     public static UnitType
 
     //ships/mechs
-    shieldShip;
+    none, shieldShip;
 
     //twilight, dusk, sundown, nightfall
 
@@ -18,6 +18,22 @@ public class HearthUnits {
     //sunbeam,
 
     public static void load(){
+        none = new UnitType("none"){{
+            constructor = PayloadUnit::create;
+            payloadCapacity = 0f;
+            hidden = true;
+            hittable = false;
+            targetable = false;
+            health = 376517;
+            hitSize = 0f;
+            buildSpeed = 0.0000001f;
+
+            speed = 15f;
+            rotateSpeed = 69420;
+
+            drawBody = drawCell = drawBuildBeam = drawMinimap = false;
+        }};
+
         shieldShip = new UnitType("shield-ship"){{
             constructor = PayloadUnit::create;
             outlineColor = HearthExtras.outline;

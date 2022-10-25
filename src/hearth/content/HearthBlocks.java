@@ -59,6 +59,7 @@ public class HearthBlocks {
         corePedestal = new CoreBlock("core-pedestal"){{
             requirements(Category.effect, with(HearthResources.ceramics, 4500, HearthResources.nickel, 2000, Items.silicon, 1500, Items.graphite, 2000));
             size = 6;
+            unitType = HearthUnits.none;
             isFirstTier = true;
             itemCapacity = 5000;
         }};
