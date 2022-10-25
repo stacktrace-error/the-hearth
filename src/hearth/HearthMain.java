@@ -1,10 +1,14 @@
 package hearth;
 
+import arc.graphics.Color;
 import arc.struct.Seq;
 import hearth.content.*;
 import mindustry.Vars;
+import mindustry.game.Team;
 import mindustry.mod.*;
 import rhino.*;
+
+import static hearth.content.HearthExtras.prosperize;
 
 public class HearthMain extends Mod{
     public HearthMain(){}
@@ -14,6 +18,7 @@ public class HearthMain extends Mod{
         HearthResources.load();
         HearthUnits.load();
         HearthBlocks.load();
+        prosperize();
     }
 
     //donated by sh1p

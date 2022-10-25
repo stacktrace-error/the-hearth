@@ -4,7 +4,6 @@ import arc.graphics.*;
 import hearth.types.*;
 import mindustry.content.*;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
@@ -13,6 +12,7 @@ import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
 
@@ -21,6 +21,9 @@ import static mindustry.type.ItemStack.with;
 public class HearthBlocks {
 
     public static Block
+
+    //storage
+    corePedestal,
 
     //distribution
     poweredRail, poweredRouter,
@@ -52,13 +55,21 @@ public class HearthBlocks {
 
     public static void load(){
 
+        //storage
+        corePedestal = new CoreBlock("core-pedestal"){{
+            requirements(Category.effect, with(HearthResources.ceramics, 4500, HearthResources.nickel, 2000, Items.silicon, 1500, Items.graphite, 2000));
+            size = 6;
+            isFirstTier = true;
+            itemCapacity = 5000;
+        }};
+
         //distribution
         poweredRail = new StackConveyor("powered-rail"){{
             requirements(Category.distribution, with(HearthResources.nickel, 1, Items.silicon, 1));
             health = 80;
             speed = 3f / 60f;
             itemCapacity = 4;
-            glowColor = HearthGraphics.power;
+            glowColor = HearthExtras.power;
 
             outputRouter = false;
             hasPower = true;
@@ -74,7 +85,7 @@ public class HearthBlocks {
             requirements(Category.distribution, with(HearthResources.nickel, 1, Items.silicon, 1));
             health = 80;
             speed = 4f;
-            glowColor = HearthGraphics.power;
+            glowColor = HearthExtras.power;
 
             hasPower = true;
             consumesPower = true;

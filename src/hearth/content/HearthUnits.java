@@ -1,7 +1,5 @@
 package hearth.content;
 
-import mindustry.ai.types.*;
-import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.type.*;
 
@@ -13,10 +11,16 @@ public class HearthUnits {
     //ships/mechs
     shieldShip;
 
+    //twilight, dusk, sundown, nightfall
+
+    //dawn, daybreak
+
+    //sunbeam,
+
     public static void load(){
         shieldShip = new UnitType("shield-ship"){{
             constructor = PayloadUnit::create;
-            outlineColor = HearthGraphics.outline;
+            outlineColor = HearthExtras.outline;
             coreUnitDock = true;
             isEnemy = false;
             envDisabled = 0;
