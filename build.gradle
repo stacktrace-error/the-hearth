@@ -76,12 +76,14 @@ task deploy(type: Jar){
     dependsOn jar
     archiveFileName = "${project.archivesBaseName}.jar"
 
-    from{ [zipTree("C:/Users/angry/AppData/Roaming/Mindustry/mods${project.archivesBaseName}Desktop.jar"), zipTree("C:/Users/angry/AppData/Roaming/Mindustry/mods${project.archivesBaseName}Android.jar")] }
+    from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
 
     doLast{
         delete{
-            delete "C:/Users/angry/AppData/Roaming/Mindustry/mods${project.archivesBaseName}Desktop.jar"
-            delete "C:/Users/angry/AppData/Roaming/Mindustry/mods${project.archivesBaseName}Android.jar"
+            delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
+            delete "$buildDir/libs/${project.archivesBaseName}Android.jar"
         }
     }
 }
+
+task jarMove dependsOn "jar", "moveDesktop"
