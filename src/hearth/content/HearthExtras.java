@@ -12,7 +12,7 @@ import static arc.math.Angles.randLenVectors;
 public class HearthExtras {
 
     public static void prosperize() {
-        Team teamProsper = Team.get(6);
+        Team teamProsper = Team.get(4);
         //why in satan's anus would these need to be final
         teamProsper.palette[0].set(Color.valueOf("dea573")); teamProsper.palette[1].set(Color.valueOf("c66653")); teamProsper.palette[2].set(Color.valueOf("aa2e3d"));
         teamProsper.hasPalette = true;
