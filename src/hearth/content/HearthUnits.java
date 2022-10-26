@@ -1,5 +1,6 @@
 package hearth.content;
 
+import mindustry.entities.abilities.RegenAbility;
 import mindustry.gen.*;
 import mindustry.type.*;
 
@@ -20,18 +21,25 @@ public class HearthUnits {
     public static void load(){
         none = new UnitType("none"){{
             constructor = PayloadUnit::create;
+            flying = true;
+            drawBody = drawCell = drawBuildBeam = drawMinimap = drawShields = false;
             payloadCapacity = 0f;
             hidden = true;
             hittable = false;
             targetable = false;
-            health = 376517;
+            health = 5112007;
+            armor = 12062020;
             hitSize = 0f;
-            buildSpeed = 0.0000001f;
+            canDrown = false;
+            canAttack = false;
+            coreUnitDock = true;
 
             speed = 15f;
             rotateSpeed = 69420;
+            buildSpeed = 0.0000001f;
 
-            drawBody = drawCell = drawBuildBeam = drawMinimap = false;
+
+            abilities.add(new RegenAbility(){{ percentAmount = 100f; }});
         }};
 
         shieldShip = new UnitType("shield-ship"){{

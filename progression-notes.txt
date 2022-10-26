@@ -1,0 +1,61 @@
+progression:                                                           quota: min. 4 major blocks every step
+
+/////////////////////////////////////////////////////////////////////  5 blocks, 2 major resources
+
+ceramics: handmining/basic bores
+nickel: handmining
+
+
+BASIC BORE - drills soft materials                              to do
+HEARTH							   bad sprite
+SILICON FURNACE
+
+3X3 basic turret - all targets
+nickel wall
+
+/////////////////////////////////////////////////////////////////////  6 blocks, 1 major resource
+
+silicon: silicon furnace - sand + heat
+
+
+COMPRESSOR PUMP - piston powered                           bad sprite
+HEATED BOILER
+CHANNEL - conduit, no silicon, fragile                          to do
+THERMAL DRILL						       broken
+
+
+6x6 proper turret, strong AoE, no AA                            to do
+shitty mender                                                   to do
+
+/////////////////////////////////////////////////////////////////////  4~ blocks, 2 major resources
+
+nickel 2: thermal drills - heat
+steam: heated boiler - heat + water
+
+
+STEAM PRESS - requires thermal drill + steam res            no sprite
+MECH PAD                                                        to do
+
+units?                                                          to do
+
+///////////////////////////////////////////////////////////////////// 4~ blocks, 1 major resource
+
+graphite: steam press - coal + steam
+
+
+CRYSTALIZATION CHAMBER                                     bad sprite
+STEAM TURBINE
+
+units?
+
+/////////////////////////////////////////////////////////////////////
+
+quartz: crys. chamber - water + sand + power		    no sprite
+
+
+LIQUID STORAGE						        to do
+HEAT SINK - heat system but in reverse weeeeeeee       spaghetti code
+
+3x3 earthquake mine launcher, stuns                         no sprite
+
+/////////////////////////////////////////////////////////////////////
