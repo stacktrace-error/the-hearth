@@ -4,12 +4,16 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import mindustry.entities.*;
 import mindustry.game.Team;
+import mindustry.graphics.Pal;
+import mindustry.graphics.g3d.HexMesh;
+import mindustry.graphics.g3d.HexSkyMesh;
+import mindustry.graphics.g3d.MultiMesh;
 
 import static arc.graphics.g2d.Draw.alpha;
 import static arc.graphics.g2d.Draw.color;
 import static arc.math.Angles.randLenVectors;
 
-public class HearthExtras {
+public class HExtras {
 
     public static void prosperize() {
         Team teamProsper = Team.get(4);

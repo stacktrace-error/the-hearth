@@ -2,7 +2,7 @@ package hearth.types;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
-import hearth.content.HearthExtras;
+import hearth.content.HExtras;
 import mindustry.world.*;
 
 public class AutoTileBlock extends Block /*implements Autotiler*/ {
@@ -13,7 +13,7 @@ public class AutoTileBlock extends Block /*implements Autotiler*/ {
     public TextureRegion[][][] rotateRegions;
 
     public static boolean glow = false;
-    public static Color glowColor = HearthExtras.power;
+    public static Color glowColor = HExtras.power;
     public static boolean channel = true;
 
     public AutoTileBlock(String name){

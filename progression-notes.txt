@@ -7,7 +7,7 @@ nickel: handmining
 
 
 BASIC BORE - drills soft materials                              to do
-HEARTH							   bad sprite
+HEARTH							                           bad sprite
 SILICON FURNACE
 
 3X3 basic turret - all targets
@@ -21,7 +21,7 @@ silicon: silicon furnace - sand + heat
 COMPRESSOR PUMP - piston powered                           bad sprite
 HEATED BOILER
 CHANNEL - conduit, no silicon, fragile                          to do
-THERMAL DRILL						       broken
+THERMAL DRILL						                           broken
 
 
 6x6 proper turret, strong AoE, no AA                            to do
@@ -50,10 +50,10 @@ units?
 
 /////////////////////////////////////////////////////////////////////
 
-quartz: crys. chamber - water + sand + power		    no sprite
+quartz: crys. chamber - water + sand + power		        no sprite
 
 
-LIQUID STORAGE						        to do
+LIQUID STORAGE						                            to do
 HEAT SINK - heat system but in reverse weeeeeeee       spaghetti code
 
 3x3 earthquake mine launcher, stuns                         no sprite

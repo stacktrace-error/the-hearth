@@ -22,9 +22,10 @@ public class MagneticBlock extends Block{
     public boolean directional = false;
     public float polMultiplier = 0.3f;
     public boolean ignoreType = false;
-    public float dstMult = 0.5f;
 
     public float heatRequirement = -10f;
+
+    public TextureRegion rot0, rot1, arrow;
 
     /*public @Load("@-0") TextureRegion rot0; public @Load("@-1") TextureRegion rot1;
     public @Load("@-arrow") TextureRegion arrow;*/
@@ -56,13 +57,25 @@ public class MagneticBlock extends Block{
         if(!directional) {Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);}
     }
 
+    @Override
+    public void init(){
+        rot0 = Core.atlas.find(/*name+"-rot0"*/"hearth-owo");
+        rot1 = Core.atlas.find("hearth-uwu");
+        arrow = Core.atlas.find(name+"arrow");
+    }
+
     public class MagneticBlockBuild extends Building implements HeatConsumer{
         public Seq<Bullet> targets = new Seq<>();
-        public float dirX = 0f, dirY = 0f, push = 0f, strength;
+        public float dirX = 0f, dirY = 0f, strength;
         Vec2 pushDir, bPos;
         public float[] sideHeat = new float[4];
 
         public float heatPercent(){ return Mathf.clamp(calculateHeat(sideHeat) / heatRequirement, 0, 1); }
+
+        @Override
+        public void drawSelect(){
+            if(!directional){ Drawf.dashCircle(x, y, range, Pal.redLight); }
+        }
 
         @Override
         public void updateTile() {
@@ -76,7 +89,7 @@ public class MagneticBlock extends Block{
                 targets = Groups.bullet.intersect(x - range, y - range, range * 2f, range * 2f);
                 if(!ignoreType) {targets.filter(b -> b.type().hittable);}
 
-                if (efficiency > 0 && targets.size >= 0) { //todo this is not getting target correctly
+                if (/*efficiency > 0 &&*/ targets.size >= 0) {
                     for (Bullet target : targets) {
                         if (target.type() != null && ignoreType || target.type().hittable) {
                             if (directional) {
@@ -87,7 +100,8 @@ public class MagneticBlock extends Block{
                                 //if not apply in a radius
                                 bPos = new Vec2(target.x, target.y);
                                 pushDir = new Vec2(x, y).sub(bPos);
-                                pushDir.setLength(Mathf.clamp(strength - Mathf.pow(bPos.dst(x, y) * dstMult, 2), 0, strength));
+                                Log.info("e: "+efficiency+" s: "+((1f - bPos.dst(x, y) / range) * -1f));
+                                pushDir.setLength(Mathf.clamp(1f - bPos.dst(x, y) / range, -1f , 0f) * strength * -1f);
                                 if (rotation == 1 || rotation == 3) {
                                     pushDir.rotate(180);
                                     pushDir.setLength(pushDir.len() * polMultiplier);
@@ -114,12 +128,12 @@ public class MagneticBlock extends Block{
             return heatRequirement;
         }
 
-        /*@Override
+        @Override
         public void draw() {
             Draw.rect(rotation == 1 || rotation == 3 ? rot0 : rot1, x, y, 0);
             if(directional){
                 Draw.rect(arrow, x, y, rotdeg());
             }
-        }*/
+        }
     }
 }

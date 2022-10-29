@@ -6,7 +6,7 @@ import mindustry.type.*;
 
 import static mindustry.Vars.tilesize;
 
-public class HearthUnits {
+public class HUnits {
     public static UnitType
 
     //ships/mechs
@@ -44,7 +44,7 @@ public class HearthUnits {
 
         shieldShip = new UnitType("shield-ship"){{
             constructor = PayloadUnit::create;
-            outlineColor = HearthExtras.outline;
+            outlineColor = HExtras.outline;
             coreUnitDock = true;
             isEnemy = false;
             envDisabled = 0;
