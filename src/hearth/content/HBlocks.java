@@ -284,6 +284,8 @@ public class HBlocks {
             heatColor = HExtras.power; outlineColor = HExtras.outline;
             shootSound = Sounds.shootSmite;
 
+            heatRequirement = -30f;
+            maxHeatEfficiency = 2f;
             consumePower(200f);
 
             shootType = new BasicBulletType(7f, 30f, "hearth-split-bullet"){{
