@@ -1,20 +1,24 @@
 package hearth.content;
 
 import arc.graphics.*;
+import arc.math.Interp;
 import hearth.types.*;
 import mindustry.content.*;
+import mindustry.entities.bullet.*;
+import mindustry.entities.part.*;
 import mindustry.gen.*;
+import mindustry.graphics.Layer;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
-import mindustry.world.blocks.distribution.StackConveyor;
-import mindustry.world.blocks.distribution.StackRouter;
+import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
-import mindustry.world.meta.BuildVisibility;
+import mindustry.world.meta.*;
 
 import static mindustry.type.ItemStack.with;
 
@@ -23,7 +27,7 @@ public class HBlocks {
     public static Block
 
     //storage
-    corePedestal,
+    corePedestal, beamNoder,
 
     //distribution
     poweredRail, poweredRouter,
@@ -41,7 +45,7 @@ public class HBlocks {
     shipPad,
 
     //turrets
-    oscillate, vibrationMine, //throws piezo mines that slow enemies, midgame
+    oscillate, vibrationMine, split,
 
     //defense
     magneticAccelerator, magneticRedirector, barrierProjector,
@@ -225,6 +229,12 @@ public class HBlocks {
             hasPower = true;
         }};
 
+        beamNoder = new BeamNode("beam-noder"){{
+            requirements(Category.power, with(HResources.nickel, 50));
+
+            size = 3;
+        }};
+
         steamTurbine = new ConsumeGenerator("steam-turbine"){{
             requirements(Category.power, with(HResources.nickel, 50));
 
@@ -259,11 +269,64 @@ public class HBlocks {
 
 
         //turrets
+        split = new PowerTurret("split"){{
+            requirements(Category.turret, with(HResources.nickel, 6));
+            size = 4;
+            scaledHealth = 210;
+
+            reload = 160f;
+            shake = 2f;
+            recoil = 3f;
+            minWarmup = 0.99f;
+            shootWarmupSpeed = 0.07f;
+            rotateSpeed = 2f;
+
+            heatColor = HExtras.power; outlineColor = HExtras.outline;
+            shootSound = Sounds.shootSmite;
+
+            consumePower(200f);
+
+            shootType = new BasicBulletType(7f, 30f, "hearth-split-bullet"){{
+                width = 11f;
+                height = 16f;
+                hitSize = 13f;
+                lifetime = 20f;
+                ammoMultiplier = 1;
+                pierce = true;
+                pierceCap = 4;
+
+                frontColor = Color.white;
+                backColor = hitColor = trailColor = backColor = HExtras.power;
+                hitEffect = Fx.hitSquaresColor;
+                trailEffect = Fx.colorSpark;
+                trailRotation = true;
+                trailInterval = 3f;
+            }};
+
+            drawer = new DrawTurret("nickel-"){{
+                parts.addAll(
+                    new RegionPart("-wing"){{
+                        progress = heatProgress = PartProgress.warmup;
+                        heatColor = HExtras.power;
+                        mirror = true;
+                        under = true;
+
+                        moveX = 2f;
+                        moves.add(new PartMove(PartProgress.recoil, -2f, 0, 0));
+                    }},
+                    new RegionPart("-g"){{
+                        heatProgress = PartProgress.warmup.mul(0.5f);
+                        heatColor = HExtras.power;
+                        drawRegion = false;
+                    }}
+                );
+            }};
+        }};
+
         vibrationMine = new ShockMine("vibration-mine"){{
             requirements(Category.turret, with(HResources.nickel, 6));
             size = 1;
         }};
-
         /*oscillate = new PayloadAmmoTurret("oscillate"){{
             requirements(Category.turret, with(HearthResources.nickel, 6));
             size = 3;
@@ -341,12 +404,12 @@ public class HBlocks {
         nickelWall = new Wall("nickel-wall"){{
             requirements(Category.defense, with(HResources.nickel, 6 * 4));
             size = 2;
-            health = smallNickelWall.health * 2;
+            health = smallNickelWall.health * 4;
         }};
         largeNickelWall = new Wall("large-nickel-wall"){{
             requirements(Category.defense, with(HResources.nickel, 6 * 9));
             size = 3;
-            health = smallNickelWall.health * 3;
+            health = smallNickelWall.health * 9;
         }};
 
         smallInvarWall = new Wall("small-invar-wall"){{
@@ -357,12 +420,12 @@ public class HBlocks {
         invarWall = new Wall("invar-wall"){{
             requirements(Category.defense, with(HResources.invar, 6 * 4));
             size = 2;
-            health = smallInvarWall.health * 2;
+            health = smallInvarWall.health * 4;
         }};
         largeInvarWall = new Wall("large-invar-wall"){{
             requirements(Category.defense, with(HResources.invar, 6 * 9));
             size = 3;
-            health = smallInvarWall.health * 3;
+            health = smallInvarWall.health * 9;
         }};
 
         smallQuartzWall = new PiezoWall("small-quartz-wall"){{
@@ -373,12 +436,12 @@ public class HBlocks {
         quartzWall = new PiezoWall("quartz-wall"){{
             requirements(Category.defense, with(HResources.quartz, 6 * 4));
             size = 2;
-            health = smallQuartzWall.health * 2;
+            health = smallQuartzWall.health * 4;
         }};
         largeQuartzWall = new PiezoWall("large-quartz-wall"){{
             requirements(Category.defense, with(HResources.quartz, 6 * 9));
             size = 3;
-            health = smallQuartzWall.health * 3;
+            health = smallQuartzWall.health * 9;
         }};
 
         smallHeavyThoriumWall = new Wall("small-heavy-thorium-wall"){{
@@ -389,12 +452,12 @@ public class HBlocks {
         heavyThoriumWall = new Wall("heavy-thorium-wall"){{
             requirements(Category.defense, with(Items.thorium, 6 * 4));
             size = 2;
-            health = smallHeavyThoriumWall.health * 2;
+            health = smallHeavyThoriumWall.health * 4;
         }};
         largeHeavyThoriumWall = new Wall("large-heavy-thorium-wall"){{
             requirements(Category.defense, with(Items.thorium, 6 * 9));
             size = 3;
-            health = smallHeavyThoriumWall.health * 3;
+            health = smallHeavyThoriumWall.health * 9;
         }};
 
         smallArmatineWall = new Wall("small-armatine-wall"){{
@@ -405,12 +468,12 @@ public class HBlocks {
         armatineWall = new Wall("armatine-wall"){{
             requirements(Category.defense, with(HResources.armatine, 6 * 4));
             size = 2;
-            health = smallArmatineWall.health * 2;
+            health = smallArmatineWall.health * 4;
         }};
         largeArmatineWall = new Wall("large-armatine-wall"){{
             requirements(Category.defense, with(HResources.armatine, 6 * 9));
             size = 3;
-            health = smallArmatineWall.health * 3;
+            health = smallArmatineWall.health * 9;
         }};
     }
 }

@@ -81,7 +81,7 @@ public class MagneticBlock extends Block{
         public void updateTile() {
             super.updateTile();
 
-            strength = baseStrength * efficiency * heatPercent() * Time.delta;
+            strength = baseStrength /* efficiency*/ * heatPercent() * Time.delta;
 
             //get targets
 //            if (potentialEfficiency > 0) {

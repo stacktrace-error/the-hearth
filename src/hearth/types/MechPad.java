@@ -9,6 +9,7 @@ import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.util.Nullable;
+import arc.util.Scaling;
 import arc.util.Strings;
 import arc.util.Time;
 import mindustry.Vars;
@@ -63,7 +64,7 @@ public class MechPad extends Block{
             table.row();
 
             table.table(Styles.grayPanel, t -> {
-                t.image(unitType.uiIcon).size(40).pad(10f).left();
+                t.image(unitType.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
                 t.table(info -> {
                     info.add(unitType.localizedName).left();
                     info.row();
@@ -173,6 +174,7 @@ public class MechPad extends Block{
         @Override
         public void updateTile(){
             if(isControlled() && efficiency > 0.1f){
+                unit.tile(this);
                 time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team);
                 speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);
