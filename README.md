@@ -1,4 +1,4 @@
-#Hearth, I guess
+# Hearth, I guess
 
 ## Building for Desktop Testing
 
