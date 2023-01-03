@@ -1,12 +1,14 @@
 package hearth;
 
+import arc.Core;
+import arc.Events;
 import arc.struct.Seq;
 import hearth.content.*;
 import mindustry.Vars;
+import mindustry.game.EventType;
+import mindustry.game.Team;
 import mindustry.mod.*;
 import rhino.*;
-
-import static hearth.content.HExtras.prosperize;
 
 public class HearthMain extends Mod{
     public HearthMain(){}
@@ -18,7 +20,12 @@ public class HearthMain extends Mod{
         HBlocks.load();
         HSpace.load();
         AhkarTechTree.load();
-        prosperize();
+
+        Events.on(EventType.ClientLoadEvent.class, (e) -> {
+            if(!Vars.mobile) {
+                Vars.control.setInput(new HInput());
+            }
+        });
     }
 
     //donated by sh1p
