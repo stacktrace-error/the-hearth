@@ -1,14 +1,10 @@
 package hearth;
 
-import arc.ApplicationListener;
 import arc.Core;
 import arc.graphics.*;
 import arc.scene.ui.layout.Scl;
 import arc.util.Time;
-import mindustry.ai.UnitCommand;
-import mindustry.game.Team;
 import mindustry.graphics.Shaders;
-import mindustry.world.meta.Attribute;
 
 public class HGraphics {
 
@@ -24,7 +20,7 @@ public class HGraphics {
 
 
     //shaders
-    public static class ChromaticAberrationShader extends Shaders.LoadShader {
+    public static class ChromaticAberrationShader extends Shaders.LoadShader { //todo impl
         public ChromaticAberrationShader(){
             super("aberration", "screenspace");
         }

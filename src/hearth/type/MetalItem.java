@@ -36,7 +36,7 @@ public class MetalItem extends Item {
         stats.add(new Stat("canMelt"), true);
     }
 
-    /*@Override
+    @Override
     public void load(){
         super.load();
         String localized = localizedName;
@@ -48,8 +48,8 @@ public class MetalItem extends Item {
             lightColor = moltenColor.a(0.4f);
             //hidden = true;
             fullIcon = uiIcon = region;
-            localizedName = localized;
+            localizedName = "Molten " + localized;
             description = "[red]Stop! You have violated the Law! Pay the court a fine or serve your sentence. Your stolen goods are now forfeit.[]";
         }};
-    }*/
+    }
 }
