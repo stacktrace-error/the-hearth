@@ -1,12 +1,10 @@
 package hearth;
 
-import arc.Core;
 import arc.Events;
 import arc.struct.Seq;
 import hearth.content.*;
 import mindustry.Vars;
 import mindustry.game.EventType;
-import mindustry.game.Team;
 import mindustry.mod.*;
 import rhino.*;
 
@@ -20,6 +18,7 @@ public class HearthMain extends Mod{
         HBlocks.load();
         HSpace.load();
         AhkarTechTree.load();
+        //new HGraphics().loadGraphics();
 
         Events.on(EventType.ClientLoadEvent.class, (e) -> {
             if(!Vars.mobile) {
@@ -37,9 +36,8 @@ public class HearthMain extends Mod{
         ImporterTopLevel scope = (ImporterTopLevel) Vars.mods.getScripts().scope;
 
         Seq<String> packages = Seq.with(
-                "hearth",
-                "hearth.types",
-                "hearth.content"
+            "hearth",
+            "hearth.content"
         );
 
         packages.each(name -> {

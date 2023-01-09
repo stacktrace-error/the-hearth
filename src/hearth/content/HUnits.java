@@ -226,6 +226,5 @@ public class HUnits {
         UnitTypes.emanate.constructor = TractorPayloadUnit::create;
         UnitTypes.emanate.payloadCapacity = 524288f;
         UnitTypes.emanate.pickupUnits = true;
-        UnitTypes.collaris.groundLayer = Layer.shields;
     }
 }

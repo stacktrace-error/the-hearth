@@ -40,7 +40,6 @@ public class TractorPayloadUnit extends PayloadUnit{ //todo consider making legg
             if(!tryDropPayload(beamHeld)){
                 beamHeld = load;
                 payPos.set(unitPos);
-                beamHeld.set(unitPos.x, unitPos.y, 90); //TODO JUST FUCKING WORK ALREADY
 
                 payloads.pop();
             }
@@ -50,7 +49,6 @@ public class TractorPayloadUnit extends PayloadUnit{ //todo consider making legg
     public void updateHeld(){
         if(beamHeld == null || Vars.state.isPaused()) return;
         mouse.set(Mathf.clamp(aimX, 0, Vars.world.height() * 8f), Mathf.clamp(aimY, 0f, Vars.world.width() * 8f));
-        unitPos.set(x, y);
 
         if(mouse.dst(unitPos) > beamRange){
             mouse.set(mouse.sub(unitPos).setLength(beamRange).add(unitPos));
@@ -171,6 +169,7 @@ public class TractorPayloadUnit extends PayloadUnit{ //todo consider making legg
     public void update(){
         super.update();
 
+        unitPos.set(x, y);
         updateHeld();
     }
 

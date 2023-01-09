@@ -2,12 +2,11 @@ package hearth.content;
 
 import mindustry.content.TechTree;
 
-import static hearth.content.HBlocks.*;
 import static hearth.content.HResources.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 
-public class AhkarTechTree extends TechTree {
+public class AhkarTechTree extends TechTree{
     public static void load(){
         HSpace.ahkar.techTree = nodeRoot("ahkar", lens ,false, () -> {
             //items
@@ -23,9 +22,9 @@ public class AhkarTechTree extends TechTree {
             node(sand, () ->
                 node(silicon, () -> {
                     node(water, () -> {
-                    node(ozone, () ->
-                        node(hydrogen, () ->
-                            node(helium)
+                        node(ozone, () ->
+                            node(hydrogen, () ->
+                                node(helium)
             ));});}));
         });
     }

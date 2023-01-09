@@ -1,11 +1,9 @@
 package hearth.type;
 
+import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.TextureRegion;
-import mindustry.content.Liquids;
-import mindustry.content.StatusEffects;
-import mindustry.type.Item;
-import mindustry.type.Liquid;
+import mindustry.content.*;
+import mindustry.type.*;
 import mindustry.world.meta.Stat;
 
 public class MetalItem extends Item {
@@ -33,23 +31,28 @@ public class MetalItem extends Item {
 
     @Override
     public void setStats(){
-        stats.add(new Stat("canMelt"), true);
+        stats.add(new Stat("can-melt"), true);
+    }
+
+    @Override
+    public void init(){
+        super.init();
+        String localized = localizedName;
+
+        molten = new Liquid(name + "-molten", moltenColor){{
+            viscosity = 0.7f;
+            temperature = 1f;
+            effect = StatusEffects.melting;
+            lightColor = moltenColor.a(0.4f);
+            hidden = true;
+            localizedName = "Molten " + localized;
+            description = "[red]Stop! You have violated the Law! Pay the court a fine or serve your sentence. Your stolen goods are now forfeit.[]";
+        }};
     }
 
     @Override
     public void load(){
         super.load();
-        String localized = localizedName;
-        TextureRegion region = uiIcon;
-
-        molten = new Liquid(name + "-l", moltenColor){{ //todo crash
-            viscosity = 0.7f;
-            effect = StatusEffects.melting;
-            lightColor = moltenColor.a(0.4f);
-            //hidden = true;
-            fullIcon = uiIcon = region;
-            localizedName = "Molten " + localized;
-            description = "[red]Stop! You have violated the Law! Pay the court a fine or serve your sentence. Your stolen goods are now forfeit.[]";
-        }};
+        molten.fullIcon = molten.uiIcon = Core.atlas.find(molten.name, uiIcon);
     }
 }

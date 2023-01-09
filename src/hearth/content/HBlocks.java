@@ -1,9 +1,12 @@
 package hearth.content;
 
-import hearth.world.blocks.payload.ComponentReceiver;
+import hearth.world.blocks.payload.*;
+import hearth.world.blocks.power.LaserNode;
 import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.payloads.PayloadConveyor;
+import mindustry.world.blocks.payloads.PayloadSource;
 import mindustry.world.meta.Attribute;
 
 import static hearth.content.HResources.*;
@@ -20,12 +23,13 @@ public class HBlocks {
     componentReceiver,
 
     //distribution
+    transporter,
 
     //production
-
-    //payload
+    foundry, smallPaySource,
 
     //power
+    laserNode,
 
     //units
 
@@ -46,12 +50,28 @@ public class HBlocks {
         }};
 
         //distribution
+        transporter = new PayloadConveyor("transporter"){{
+            requirements(Category.effect, with(nickel, 20));
+            size = 2;
+        }};
 
         //production
+        foundry = new PayloadCrafter("foundry"){{
+            requirements(Category.effect, with(nickel, 100, silicon, 125));
+            size = 4;
+        }};
 
-        //payload
+        smallPaySource = new PayloadSource("small-payload-source"){{
+            requirements(Category.effect, with(nickel, 100, silicon, 125));
+            size = 2;
+        }};
+
 
         //power
+        laserNode = new LaserNode("laser-node"){{
+            requirements(Category.effect, with(nickel, 100, silicon, 125));
+            size = 2;
+        }};
 
         //units
 

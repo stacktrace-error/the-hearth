@@ -37,6 +37,11 @@ config/
 version.properties
 
 .attach_*
+
+## Aseprite
+*.aseprite
+*.ase
+
 ## Java
 
 *.class
@@ -146,7 +151,3 @@ gradle-app.setting
 .DS_Store
 Thumbs.db
 android/libs/
-
-## Aseprite
-*.aseprite
-*.ase

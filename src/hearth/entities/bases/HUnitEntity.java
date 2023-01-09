@@ -9,13 +9,14 @@ import mindustry.entities.Damage;
 import mindustry.gen.UnitEntity;
 import mindustry.type.UnitType;
 
+@SuppressWarnings("unused")
 public class HUnitEntity extends UnitEntity{
     public AhkarUnitType type = HUnits.daybreak;
 
     public boolean fortified = false;
     public float fortProgress = 0f;
 
-    public Seq<ItemPayload> components = new Seq();
+    public Seq<ItemPayload> components = new Seq<>();
 
     //forting
     @Override

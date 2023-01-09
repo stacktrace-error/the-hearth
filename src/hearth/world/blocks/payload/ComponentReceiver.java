@@ -3,7 +3,9 @@ package hearth.world.blocks.payload;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import hearth.type.ItemPayload;
+import hearth.type.PayloadItem;
 import hearth.type.PayloadItem.PayloadItemBuild;
+import mindustry.content.Liquids;
 import mindustry.gen.Building;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.storage.CoreBlock;
@@ -24,11 +26,12 @@ public class ComponentReceiver extends PayloadBlock{
 
         @Override
         public boolean acceptPayload(Building source, Payload payload){ //todo lock input to backside
-            return super.acceptPayload(source, payload) && linkedCore != null &&
+            return /*super.acceptPayload(source, payload) && linkedCore != null &&
                 payload.fits(maxSize) &&
-                payload instanceof ItemPayload &&
-                ((ItemPayload)payload).item() != null &&
-                linkedCore.acceptItem(source, ((ItemPayload)payload).item());
+                (
+                    (payload instanceof ItemPayload && ((ItemPayload)payload).item() != null) && linkedCore.acceptItem(source, ((ItemPayload)payload).item()) ||
+                    (payload instanceof BuildPayload && ((PayloadItem)((BuildPayload)payload).build.block).item != null  && linkedCore.acceptItem(source, ((PayloadItem)((BuildPayload)payload).build.block).item))
+                );*/ false;
         }
 
         @Override
@@ -36,8 +39,8 @@ public class ComponentReceiver extends PayloadBlock{
             super.updateTile();
 
             if(linkedCore != null && moveInPayload()){
-                linkedCore.handleItem(this, ((ItemPayload)payload).item());
-                payload.build.remove();
+                /*linkedCore.handleItem(this, ((ItemPayload)payload).item());
+                payload.build.remove();*/
                 payload = null;
             }
         }
@@ -67,7 +70,7 @@ public class ComponentReceiver extends PayloadBlock{
             Draw.rect(rotation >= 2 ?
                     Core.atlas.find(name+"-out2-"+team.name, Core.atlas.find(name+"-out2")) :
                     Core.atlas.find(name+"-out1-"+team.name, Core.atlas.find(name+"-out1")),
-                    x, y, size * (rotation % 2 != 0 ? -16f : 16f), size * (rotation % 2 != 0 ? -16f : 16f), rotdeg());
+                    x, y, size * (rotation % 2 != 0 ? -8f : 8f), size * (rotation % 2 != 0 ? -8f : 8f), rotdeg());
             Draw.color();
         }
     }

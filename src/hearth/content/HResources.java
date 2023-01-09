@@ -2,9 +2,7 @@ package hearth.content;
 
 import arc.graphics.Color;
 import arc.struct.Seq;
-import hearth.type.MetalItem;
-import hearth.type.PayloadItem;
-import mindustry.content.StatusEffects;
+import hearth.type.*;
 import mindustry.type.*;
 
 import static mindustry.content.Items.*;
@@ -15,7 +13,7 @@ public class HResources {
 
     public static Item nickel, ferrite, invar, vanadium, armatine;
 
-    public static PayloadItem machineFrame, lensBase, lens, abberationLens;
+    public static PayloadItem machineFrame, lensBase, lens, aberrationLens;
 
     public static final Seq<Item> ahkarItems = new Seq<>();
     public static final Seq<Item> ahkarOnlyItems = new Seq<>();
@@ -23,7 +21,7 @@ public class HResources {
 
 
     public static void load(){
-        nickel = new MetalItem("nickel", Color.valueOf("786f72")){{ //todo description
+        nickel = new MetalItem("nickel", Color.valueOf("786f72")){{
             cost = 0.5f;
         }};
 
@@ -31,15 +29,15 @@ public class HResources {
         //silicon
 
 
-        machineFrame = new PayloadItem("machine-frame", 1.25f);
-        lensBase = new PayloadItem("lens-base", 1.25f);
-        lens = new PayloadItem("lens", 1.25f); //lens frame, sand
+        machineFrame = new PayloadItem("machine-frame", 1.5f);
+        lensBase = new PayloadItem("lens-base", 1.5f);
+        lens = new PayloadItem("lens", 1.5f); //lens frame, sand
 
 
         ferrite = new MetalItem("ferrite", Color.valueOf("a28981")){{
             buildable = false;
         }};
-        invar = new MetalItem("invar", Color.valueOf("9d958b")){{ //todo sprite
+        invar = new MetalItem("invar", Color.valueOf("9d958b")){{
             cost = 1f;
         }};
 
@@ -52,22 +50,16 @@ public class HResources {
         }};
 
 
-        abberationLens = new PayloadItem("aberration-lens", 1.5f); //lens frame, vanadium, thorium
+        aberrationLens = new PayloadItem("aberration-lens", 2f); //lens frame, vanadium, thorium
 
 
         armatine = new MetalItem("armatine", Color.valueOf("a48656")){{
             cost = 1.5f;
         }};
-        armatineL = new Liquid("armatine-l", Color.valueOf("eaa46e")){{
-            temperature = 1f;
-            viscosity = 0.7f;
-            effect = StatusEffects.melting;
-            lightColor = Color.valueOf("f0511d").a(0.4f);
-        }};
 
 
         //liquids
-        helium = new Liquid("helium", Color.grays(0.9f)){{ //todo color
+        helium = new Liquid("helium", Color.grays(0.9f)){{
             gas = true;
         }};
 
@@ -75,7 +67,7 @@ public class HResources {
         ahkarItems.addAll(nickel, sand, silicon, ferrite, invar, thorium, vanadium, armatine);
         ahkarOnlyItems.addAll(ahkarItems).removeAll(serpuloItems);
 
-        generateItems.addAll(lens, abberationLens);
+        generateItems.addAll(lens, aberrationLens);
         for (PayloadItem a : generateItems) if(a.name != null) new Item(a.name);
     }
 }
