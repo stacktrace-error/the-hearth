@@ -15,7 +15,7 @@ import static mindustry.Vars.*;
 
 public class HLegsUnit extends HUnitEntity {
     //todo stop foot from rotating while placed
-    //todo custom weapon class with moving base/fortify multipliers
+    //todo custom weapon class, can move, fortify multipliers
 
     private static final Vec2 straightVec = new Vec2();
 

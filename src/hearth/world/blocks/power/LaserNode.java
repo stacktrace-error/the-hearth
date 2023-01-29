@@ -88,7 +88,6 @@ public class LaserNode extends BeamNode{
 
         @Override
         public void updateTile(){
-            //TODO this block technically does not need to update every frame, perhaps put it in a special list.
             if(lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateDirections();
@@ -114,8 +113,7 @@ public class LaserNode extends BeamNode{
             float w = laserWidth + Mathf.absin(pulseScl, pulseMag);
 
             for(int i = 0; i < 8; i ++){
-                if(links[i] == null || links[i].block == null) {
-                    Log.info("FUCK"); return;}
+                if(links[i] == null || links[i].block == null) return;
                 LaserNode node = null;
                 if(links[i].block instanceof LaserNode) node = (LaserNode)links[i].block;
 

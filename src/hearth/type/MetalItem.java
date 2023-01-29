@@ -13,7 +13,7 @@ public class MetalItem extends Item {
 
     public MetalItem(String name, Color color){
         super(name, color);
-        this.moltenColor = Liquids.slag.color;
+        this.moltenColor = Liquids.slag.color.cpy();
         moltenTemp = Liquids.slag.temperature;
     }
 

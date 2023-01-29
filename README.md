@@ -17,7 +17,7 @@ To get a jar file that works for every platform, do the following:
 
 ## Building Locally
 
-Building locally takes more time to set up, but shouldn't be a problem if you've done Android development before.
+Building locally takes more craftTime to set up, but shouldn't be a problem if you've done Android development before.
 1. Download the Android SDK, unzip it and set the `ANDROID_HOME` environment variable to its location.
 2. Make sure you have API level 30 installed, as well as any recent version of build tools (e.g. 30.0.1)
 3. Add a build-tools folder to your PATH. For placeholdername, if you have `30.0.1` installed, that would be `$ANDROID_HOME/build-tools/30.0.1`.
@@ -28,7 +28,7 @@ Building locally takes more time to set up, but shouldn't be a problem if you've
 Please note that all dependencies on Mindustry, Arc or its submodules **must be declared as compileOnly in Gradle**. Never use `implementation` for core Mindustry or Arc dependencies. 
 
 - `implementation` **places the entire dependency in the jar**, which is, in most mod dependencies, very undesirable. You do not want the entirety of the Mindustry API included with your mod.
-- `compileOnly` means that the dependency is only around at compile time, and not included in the jar.
+- `compileOnly` means that the dependency is only around at compile craftTime, and not included in the jar.
 
 Only use `implementation` if you want to package another Java library *with your mod*, and that library is not present in Mindustry already.
 

@@ -1,15 +1,22 @@
 package hearth;
 
 import arc.Events;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.gl.FrameBuffer;
 import arc.struct.Seq;
 import hearth.content.*;
+import hearth.vfx.Parallax;
+import hearth.vfx.HGraphics;
 import mindustry.Vars;
 import mindustry.game.EventType;
+import mindustry.graphics.Layer;
 import mindustry.mod.*;
 import rhino.*;
 
 public class HearthMain extends Mod{
-    public HearthMain(){}
+    public static Parallax parallax = new Parallax();
+    public FrameBuffer buffer = Vars.renderer.effectBuffer;
 
     @Override
     public void loadContent() {
@@ -18,14 +25,21 @@ public class HearthMain extends Mod{
         HBlocks.load();
         HSpace.load();
         AhkarTechTree.load();
-        //new HGraphics().loadGraphics();
 
         Events.on(EventType.ClientLoadEvent.class, (e) -> {
             if(!Vars.mobile) {
                 Vars.control.setInput(new HInput());
             }
         });
+
+        Vars.renderer.addEnvRenderer(1024, () ->
+                Draw.drawRange(Layer.legUnit, 1f, () -> buffer.begin(Color.clear), () -> {
+                buffer.end();
+                buffer.blit(new HGraphics.ChromaticAberrationShader());
+        }));
     }
+
+    public HearthMain(){}
 
     //donated by sh1p
     public static NativeJavaPackage p = null;
@@ -37,7 +51,8 @@ public class HearthMain extends Mod{
 
         Seq<String> packages = Seq.with(
             "hearth",
-            "hearth.content"
+            "hearth.content",
+            "hearth.types"
         );
 
         packages.each(name -> {

@@ -1,17 +1,27 @@
 package hearth.entities.bases;
 
+import arc.Core;
 import arc.graphics.g2d.*;
+import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Tmp;
-import hearth.HGraphics;
+import hearth.vfx.HGraphics;
 import hearth.content.HResources;
+import hearth.content.HUnits;
+import mindustry.content.Fx;
 import mindustry.entities.Leg;
 import mindustry.gen.Unit;
 import mindustry.graphics.*;
 import mindustry.type.*;
 
+import static hearth.HearthMain.parallax;
+
 public class AhkarUnitType extends UnitType {
+    public int podSize = 1;
+    public float podTime = 180f;
+    public float podFallFract = 0.1f;
+    public TextureRegion podRegion;
 
     public int minArmorTier = 0;
     public float idlePowerCons = 0f, movePowerCons = 1f / 60f;
@@ -34,11 +44,42 @@ public class AhkarUnitType extends UnitType {
         //controller = u -> !playerControllable || (u.team.isAI() && !u.team.rules().rtsAi) ? aiController.get() : new svfgdzdfdgsafgzAI();
     }
 
-    //draw
+    @Override
+    public void init(){
+        super.init();
+
+        podRegion = Core.atlas.find("hearth-unit-pod" + podSize, Core.atlas.find("launchpod"));
+    }
+
     @Override
     public void draw(Unit unit){
-        super.draw(unit);
-        if(unit instanceof HLegsUnit) drawLegs((HLegsUnit)unit);
+        if(!unit.hasEffect(HUnits.incoming)) {
+            super.draw(unit);
+            if (unit instanceof HLegsUnit) drawLegs((HLegsUnit) unit);
+        } else {
+            Draw.z(110f); Lines.stroke(2f); Draw.color(unit.team.color, Interp.bounceIn.apply(1 - getDropAlpha(unit, podTime)));
+                parallax.drawSkyLines(unit.x, unit.y, 6, hitSize + 12f, 999999999, 0);
+                Lines.poly(unit.x, unit.y, 6, hitSize + 12f / 3f, 0f);
+                Lines.stroke(4f);
+                Lines.poly(unit.x, unit.y, 6, hitSize + 12f, 0);
+
+            float alpha = getDropAlpha(unit, podTime * podFallFract);
+            Draw.reset(); Draw.z(111f);
+                Vec2 pod = parallax.parallax(unit.x, unit.y, alpha * (200 / podFallFract), true);
+                Draw.alpha(1 - alpha);
+                Draw.rect(podRegion, pod, podRegion.width * (0.5f + alpha), podRegion.height * (0.5f + alpha), 0);
+
+            Draw.reset();
+
+            if(unit.getDuration(HUnits.incoming) < 2) {
+                Fx.spawnShockwave.at(unit, podSize * 10f);
+                Fx.dynamicExplosion.at(unit, podSize);
+            }
+        }
+    }
+
+    public float getDropAlpha(Unit unit, float time){
+        return Mathf.clamp( unit.getDuration(HUnits.incoming) / time, 0f, 1f);
     }
 
     public void drawLegs(HLegsUnit unit) {

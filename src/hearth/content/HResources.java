@@ -9,9 +9,9 @@ import static mindustry.content.Items.*;
 
 public class HResources {
 
-    public static Liquid helium, armatineL;
+    public static Liquid helium;
 
-    public static Item nickel, ferrite, invar, vanadium, armatine;
+    public static Item nickel, ice, ferrite, invar, vanadium, armatine;
 
     public static PayloadItem machineFrame, lensBase, lens, aberrationLens;
 
@@ -27,6 +27,11 @@ public class HResources {
 
 
         //silicon
+
+
+        ice = new Item("ice", Color.valueOf("9fe5ff")){{
+           buildable = false;
+        }};
 
 
         machineFrame = new PayloadItem("machine-frame", 1.5f);
@@ -64,7 +69,7 @@ public class HResources {
         }};
 
 
-        ahkarItems.addAll(nickel, sand, silicon, ferrite, invar, thorium, vanadium, armatine);
+        ahkarItems.addAll(nickel, sand, silicon, ice, ferrite, invar, thorium, vanadium, armatine);
         ahkarOnlyItems.addAll(ahkarItems).removeAll(serpuloItems);
 
         generateItems.addAll(lens, aberrationLens);

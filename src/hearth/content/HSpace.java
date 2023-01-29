@@ -1,28 +1,37 @@
 package hearth.content;
 
-import arc.graphics.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.util.*;
-import arc.util.noise.*;
-import mindustry.ai.*;
-import mindustry.content.*;
-import mindustry.game.*;
-import mindustry.graphics.*;
-import mindustry.graphics.g3d.*;
-import mindustry.maps.generators.*;
-import mindustry.type.*;
-import mindustry.world.*;
-import mindustry.world.blocks.environment.*;
-import mindustry.world.meta.*;
+import arc.graphics.Color;
+import arc.math.Mathf;
+import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
+import arc.math.geom.Vec2;
+import arc.math.geom.Vec3;
+import arc.util.Tmp;
+import arc.util.noise.Ridged;
+import arc.util.noise.Simplex;
+import mindustry.ai.Astar;
+import mindustry.content.Blocks;
+import mindustry.content.Planets;
+import mindustry.game.Schematics;
+import mindustry.game.Team;
+import mindustry.graphics.g3d.HexMesh;
+import mindustry.maps.generators.PlanetGenerator;
+import mindustry.type.Planet;
+import mindustry.type.Sector;
+import mindustry.world.Block;
+import mindustry.world.Tile;
+import mindustry.world.TileGen;
+import mindustry.world.blocks.environment.TallBlock;
+import mindustry.world.meta.Env;
 
+import static hearth.content.HBlocks.grayRegolith;
+import static hearth.content.HBlocks.grayRegolithWall;
+import static mindustry.Vars.state;
+import static mindustry.Vars.world;
 import static mindustry.content.Blocks.*;
-import static hearth.content.HBlocks.*;
-
-import static mindustry.Vars.*;
 
 public class HSpace{
-    static Planet ahkar;
+    public static Planet ahkar;
 
     public static void load(){
         ahkar = new Planet("ahkar", Planets.sun, 1f, 2) {{ //rad 0.6 better but sector grid big
@@ -41,9 +50,9 @@ public class HSpace{
             lightSrcTo = 0.5f;
             lightDstFrom = 0.2f;
             clearSectorOnLose = true;
-            defaultCore = coreAcropolis; //todo
+            defaultCore = coreAcropolis;
             iconColor = beryllicStone.mapColor;
-            hiddenItems.addAll(Items.serpuloItems).addAll(Items.erekirItems).removeAll(HResources.ahkarItems);
+            //hiddenItems.addAll(Items.serpuloItems).addAll(Items.erekirItems).removeAll(HResources.ahkarItems);
 
             ruleSetter = r -> {
                 r.waveTeam = Team.green;
@@ -74,7 +83,7 @@ class AhkarPlanetGenerator extends PlanetGenerator{
     public static float iceScl = 0.9f, iceMag = 0.3f;
     public static float airThresh = 0.13f, airScl = 14;
 
-    Block[] terrain = {slag, slag, slag, redStone, redStone, beryllicStone, carbonStone, carbonStone, carbonStone, stone, stone, stone}; //todo custom tiles
+    Block[] terrain = {slag, slag, slag, slag, carbonStone, carbonStone, carbonStone, carbonStone, beryllicStone, stone, stone, stone, stone, stone, stone, stone}; //todo custom tiles
 
     {
         baseSeed = 2;
@@ -105,12 +114,6 @@ class AhkarPlanetGenerator extends PlanetGenerator{
     public float getSizeScl(){
         //should sectors be 600, or 500 blocks?
         return 2000 * 1.07f * 6f / 5f;
-    }
-
-    @Override
-    public boolean allowLanding(Sector sector){
-        //disallowed for now
-        return false;
     }
 
     float rawHeight(Vec3 position){

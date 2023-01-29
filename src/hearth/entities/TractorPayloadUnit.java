@@ -5,7 +5,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.Vec2;
 import arc.util.*;
-import hearth.HGraphics;
+import hearth.vfx.HGraphics;
 import hearth.content.*;
 import hearth.entities.bases.AhkarUnitType;
 import mindustry.Vars;
@@ -17,7 +17,7 @@ import mindustry.graphics.Drawf;
 import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 
-public class TractorPayloadUnit extends PayloadUnit{ //todo consider making legged
+public class TractorPayloadUnit extends PayloadUnit{
     public Payload beamHeld;
     public Vec2 mouse = new Vec2(), payPos = new Vec2(), unitPos = new Vec2();
     public int mouseTileX, mouseTileY;
@@ -61,7 +61,7 @@ public class TractorPayloadUnit extends PayloadUnit{ //todo consider making legg
 
         beamHeld.update(self(), null);
         beamHeld.set(payPos.x, payPos.y, beamHeld instanceof BuildPayload ? ((BuildPayload)beamHeld).build.rotation() : rotation);
-        if(beamHeld instanceof BuildPayload && ((BuildPayload)beamHeld).build.health <= 0){ //TODO YOU TOO
+        if(beamHeld instanceof BuildPayload && ((BuildPayload)beamHeld).build.health <= 0){ //todo FUCK
             beamHeld = null;
         }
 
@@ -205,7 +205,7 @@ public class TractorPayloadUnit extends PayloadUnit{ //todo consider making legg
 
                 Draw.z(122f);
                 Drawf.buildBeam(px, py, beamHeld.x(), beamHeld.y(), size * 4f);
-                //Fill.square(px, py, 1.8F + Mathf.absin(Time.time, 2.2F, 1.1F), rotation + 45.0F); todo change to circle
+                Fill.square(px, py, 1.8F + Mathf.absin(Time.time, 2.2F, 1.1F), rotation + 45.0F);
                 Draw.reset();
                 Draw.z(115f);
             }

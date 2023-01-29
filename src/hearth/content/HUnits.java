@@ -2,20 +2,27 @@ package hearth.content;
 
 import arc.func.Prov;
 import arc.graphics.Color;
-import arc.struct.*;
-import arc.struct.ObjectMap.*;
+import arc.struct.ObjectIntMap;
+import arc.struct.ObjectMap.Entry;
+import hearth.entities.TractorPayloadUnit;
+import hearth.entities.bases.AhkarUnitType;
 import hearth.entities.bases.HLegsUnit;
 import hearth.entities.bases.HUnitEntity;
-import hearth.entities.bases.AhkarUnitType;
-import hearth.entities.TractorPayloadUnit;
+import hearth.type.SolidShieldAbility;
 import mindustry.Vars;
+import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.UnitTypes;
 import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.part.RegionPart;
-import mindustry.gen.*;
+import mindustry.gen.EntityMapping;
+import mindustry.gen.Entityc;
+import mindustry.gen.LegsUnit;
+import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
-import mindustry.type.*;
+import mindustry.type.StatusEffect;
+import mindustry.type.Weapon;
+
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class HUnits {
@@ -71,6 +78,8 @@ public class HUnits {
     // sunbeam, twilight    related concepts?
     //        , sundown     no partner
 
+    public static StatusEffect incoming;
+
     public static void load(){
         setupID();
 
@@ -110,7 +119,7 @@ public class HUnits {
 
             weapons.add(new Weapon("hearth-dusk-turret"){{
                 shootSound = Sounds.mediumCannon;
-                rotationLimit = 30f; //todo fort limit, normal should be 0
+                rotationLimit = 30f;
                 layerOffset = 0.1f;
                 reload = 90f;
                 shootY = 22f;
@@ -137,7 +146,7 @@ public class HUnits {
             }});
         }};
 
-        daybreak = new AhkarUnitType("daybreak"){{ //todo is much larger than expected, move concept onto locus size
+        daybreak = new AhkarUnitType("daybreak"){{
             constructor = HLegsUnit::create;
             health = 8000;
             armor = 6f;
@@ -173,7 +182,7 @@ public class HUnits {
 
             weapons.add(new Weapon("hearth-daybreak-turret"){{
                 shootSound = Sounds.mediumCannon;
-                rotationLimit = 30f; //todo fort limit, normal should be 0
+                rotationLimit = 30f;
                 layerOffset = 0.1f;
                 reload = 90f;
                 shootY = 22f;
@@ -223,8 +232,23 @@ public class HUnits {
                     new UnitEngine(89 / 4f, -95 / 4f, 4f, 315f)
             );
         }};
+
+        incoming = new StatusEffect("incoming"){{
+            show = true;
+            speedMultiplier = 0f;
+            healthMultiplier = Float.POSITIVE_INFINITY;
+            reloadMultiplier = 0f;
+            buildSpeedMultiplier = 0f;
+            disarm = true;
+        }};
+
         UnitTypes.emanate.constructor = TractorPayloadUnit::create;
         UnitTypes.emanate.payloadCapacity = 524288f;
         UnitTypes.emanate.pickupUnits = true;
+        UnitTypes.emanate.abilities.add(new SolidShieldAbility(20f, 99999999999999f, 999999999999f, 0f, 8, 22.5f));
+
+        UnitTypes.nova.abilities.add(new SolidShieldAbility(20f, 2f, 300f, 180f, 6, 0));
+
+        Blocks.lustre.removeConsumer(Blocks.lustre.findConsumer(Objects::nonNull));
     }
 }
